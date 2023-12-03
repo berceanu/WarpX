@@ -15,53 +15,24 @@
 spack:
   specs:
   # https://github.com/ornladios/ADIOS2/issues/3332
-  - adios2 ~cuda
-  - ascent +adios2 +python ~fortran ~shared
-  - blaspp
-  - boost
-  - ccache
-  - cmake
-  - conduit ~fortran
-  - cuda
-  - fftw
-  - hdf5
-  - lapackpp
-  - mpi
-  - pkgconfig
-  - python
   - py-cython
   - py-h5py
   - py-libensemble +nlopt
   - py-mpi4py
-  - py-numpy
-  - py-pip
+  - py-numpy@1.24.2
   - py-setuptools
   - py-wheel
-  - sensei +ascent ~catalyst +python
-  - vtk-m ~shared
-# This always enables DevilRay, which builds too long on CUDA and we mainly use VTK-m
-#  - ecp-data-vis-sdk +adios2 +ascent +hdf5 +sensei
-# skipped to save time: 3D post-processing
-#  - paraview +adios2 +python3 +qt
-# skipped to save time, because they are faster installed via pip afterwards
-# python3 -m pip install jupyter matplotlib numpy openpmd-api openpmd-viewer pandas scipy yt
-#  - py-jupyter
-#  - py-matplotlib +animation +fonts +latex +movies
-#  - openpmd-api +python
-#  - py-openpmd-viewer +numba +jupyter
-#  - py-pandas
-#  - py-pyqt5
-#  - py-scipy
-#  - py-yt
+  - py-jupyter
+  - py-matplotlib +animation +fonts +latex +movies
+  - py-openpmd-viewer +numba +jupyter
+  - py-pandas
+  - py-pyqt5
+  - py-scipy
+  - py-yt
 
   packages:
     all:
-      # note: add +cuda cuda_arch=70
-      #       or respective CUDA capability instead of 70 to variants below
       variants: +mpi ~fortran +cuda cuda_arch=70
-    # default blocks at HDF5 1.8, resulting in unmergable solution
-    conduit:
-      variants: ~hdf5_compat
 
   compilers:
   # Ubuntu
@@ -74,61 +45,6 @@ spack:
         fc: /usr/bin/gfortran
       flags: {}
       operating_system: ubuntu22.04
-      target: x86_64
-      modules: []
-      environment: {}
-      extra_rpaths: []
-  - compiler:
-      spec: gcc@9.4.0
-      paths:
-        cc: /usr/bin/gcc
-        cxx: /usr/bin/g++
-        f77: /usr/bin/gfortran
-        fc: /usr/bin/gfortran
-      flags: {}
-      operating_system: ubuntu20.04
-      target: x86_64
-      modules: []
-      environment: {}
-      extra_rpaths: []
-  # Debian
-  - compiler:
-      # g++-10 gcc-10 gfortran-10 (or 11) for CUDA 11.7.0
-      spec: gcc@10.4.0
-      paths:
-        cc: /usr/bin/gcc-10
-        cxx: /usr/bin/g++-10
-        f77: /usr/bin/gfortran-10
-        fc: /usr/bin/gfortran-10
-      flags: {}
-      # unstable/sid
-      operating_system: debianunstable
-      target: x86_64
-      modules: []
-      environment: {}
-      extra_rpaths: []
-  - compiler:
-      spec: gcc@10.2.1
-      paths:
-        cc: /usr/bin/gcc
-        cxx: /usr/bin/g++
-        f77: /usr/bin/gfortran
-        fc: /usr/bin/gfortran
-      flags: {}
-      operating_system: debian11
-      target: x86_64
-      modules: []
-      environment: {}
-      extra_rpaths: []
-  - compiler:
-      spec: gcc@8.3.0
-      paths:
-        cc: /usr/bin/gcc
-        cxx: /usr/bin/g++
-        f77: /usr/bin/gfortran
-        fc: /usr/bin/gfortran
-      flags: {}
-      operating_system: debian10
       target: x86_64
       modules: []
       environment: {}
