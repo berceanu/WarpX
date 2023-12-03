@@ -1,13 +1,4 @@
 spack:
-  # variations of this environment can be controlled via environment variables during `spack env create`
-  definitions:
-  # basic Python dependencies for WarpX Python PICMI bindings
-  - python: []
-  - python: [python@3.10.10, py-pip, openpmd-api@0.15.2 +python]
-    when: env.get("SPACK_STACK_USE_PYTHON", "1") == "1"
-  - python: [openpmd-api@0.15.2]
-    when: env.get("SPACK_STACK_USE_PYTHON", "1") != "1"
-
   specs:
   - pkgconfig
   - ccache
@@ -20,8 +11,11 @@ spack:
   - adios2@2.9.2 ~mgard
   - blaspp
   - lapackpp
-  - boost@1.81.0 +program_options +atomic
-  - $python
+  - boost@1.81.0 +program_options +atomic ~python
+  - python@3.10.10
+  - py-pip
+  - openpmd-api@0.15.2 +python
+  - py-numpy@1.24.2
 
   packages:
     all:
