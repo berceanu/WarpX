@@ -1,0 +1,37 @@
+# clone warpx
+if [ ! -d "${HOME}/src/warpx" ]
+then
+    git clone https://github.com/ECP-WarpX/WarpX.git ${HOME}/src/warpx
+fi
+
+# activate the compiler
+module purge
+spack unload --all
+spack env deactivate
+spack load gcc@11.1.0
+
+# download and activate spack
+if [ ! -d "${HOME}/spack" ]
+then
+    git clone -c feature.manyFiles=true https://github.com/spack/spack.git ${HOME}/spack
+    source ${HOME}/spack/share/spack/setup-env.sh
+
+    # create and activate the spack environment
+    export SPACK_STACK_USE_PYTHON=0 # TODO
+    spack env create warpx-thor-cuda-py ${HOME}/src/warpx/Tools/machines/eli-np/spack-thor-cuda.yaml
+    spack env activate warpx-thor-cuda-py
+    spack install
+else
+    # activate the spack environment
+    source ${HOME}/spack/share/spack/setup-env.sh
+    spack env activate warpx-thor-cuda-py
+fi
+
+export AMREX_CUDA_ARCH="7.0"
+
+# compiler environment hints
+export CC=$(which gcc)
+export CXX=$(which g++)
+export FC=$(which gfortran)
+export CUDACXX=$(which nvcc)
+export CUDAHOSTCXX=$(which g++)
