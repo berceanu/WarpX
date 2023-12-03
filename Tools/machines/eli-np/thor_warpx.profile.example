@@ -4,17 +4,16 @@ then
     git clone https://github.com/ECP-WarpX/WarpX.git ${HOME}/src/warpx
 fi
 
-# activate the compiler
-module purge
-spack unload --all
-spack env deactivate
-spack load gcc@11.1.0
-
 # download and activate spack
 if [ ! -d "${HOME}/spack" ]
 then
     git clone -c feature.manyFiles=true https://github.com/spack/spack.git ${HOME}/spack
     source ${HOME}/spack/share/spack/setup-env.sh
+
+    module purge
+    spack unload --all
+    spack env deactivate
+    spack load gcc@11.1.0
 
     # create and activate the spack environment
     spack env create warpx-thor-cuda ${HOME}/src/warpx/Tools/machines/eli-np/spack-thor-cuda.yaml
@@ -23,6 +22,12 @@ then
 else
     # activate the spack environment
     source ${HOME}/spack/share/spack/setup-env.sh
+
+    module purge
+    spack unload --all
+    spack env deactivate
+    spack load gcc@11.1.0
+
     spack env activate warpx-thor-cuda
 fi
 
