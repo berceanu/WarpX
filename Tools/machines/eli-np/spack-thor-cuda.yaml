@@ -1,0 +1,37 @@
+spack:
+  # variations of this environment can be controlled via environment variables during `spack env create`
+  definitions:
+  # basic Python dependencies for WarpX Python PICMI bindings
+  - python: []
+  - python: [python@3.10.10, py-pip, openpmd-api@0.15.2 +python]
+    when: env.get("SPACK_STACK_USE_PYTHON", "1") == "1"
+  - python: [openpmd-api@0.15.2]
+    when: env.get("SPACK_STACK_USE_PYTHON", "1") != "1"
+
+  specs:
+  - pkgconfig
+  - ccache
+  - cmake@3.26.5
+  - ninja
+  - cuda@11.4.4
+  - openmpi@4.1.6 +atomics ~internal-pmix ~internal-hwloc
+  - fftw
+  - hdf5@1.14.0
+  - adios2@2.9.2 ~mgard
+  - blaspp
+  - lapackpp
+  - boost@1.81.0 +program_options +atomic
+  - $python
+
+  packages:
+    all:
+      target: [cascadelake]
+      compiler: [gcc@11.1.0]
+      variants: +mpi ~fortran +cuda cuda_arch=70
+      providers:
+        mpi: [openmpi@4.1.6]
+
+  view: true
+  concretizer:
+    reuse: false
+    unify: true
