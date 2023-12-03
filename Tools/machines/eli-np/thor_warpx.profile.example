@@ -17,14 +17,13 @@ then
     source ${HOME}/spack/share/spack/setup-env.sh
 
     # create and activate the spack environment
-    export SPACK_STACK_USE_PYTHON=0 # TODO
-    spack env create warpx-thor-cuda-py ${HOME}/src/warpx/Tools/machines/eli-np/spack-thor-cuda.yaml
-    spack env activate warpx-thor-cuda-py
+    spack env create warpx-thor-cuda ${HOME}/src/warpx/Tools/machines/eli-np/spack-thor-cuda.yaml
+    spack env activate warpx-thor-cuda
     spack install
 else
     # activate the spack environment
     source ${HOME}/spack/share/spack/setup-env.sh
-    spack env activate warpx-thor-cuda-py
+    spack env activate warpx-thor-cuda
 fi
 
 export AMREX_CUDA_ARCH="7.0"
